@@ -10,7 +10,7 @@ An example role is included to run a test to ensure the system is functioning
     curl --request POST \
       --url http://127.0.0.1:8080/api/run/ \
       --data 'role=test' \
-      --data 'play=hello.yml'
+      --data 'play=hello.yml' \
       --data 'host=localhost'
       
 
