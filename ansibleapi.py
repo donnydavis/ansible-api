@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 @app.route('/', methods = ['GET'])
 def index():
-    """Welcome to Ansible-API"""
+    """Welcome to Ansible API"""
     return jsonify({'hello': 'What would you like to automate today?'})
 
 
@@ -37,13 +37,12 @@ def runPlay():
         return jsonify({'RunningPlay': {'name': p}})
     else:
        return '''To use this API
-curl --request POST --url http://127.0.0.1:8080/api/run/ --somemore data here
+curl --request POST \
+  --url http://127.0.0.1:8080/api/run/ \
+  --data 'role=test' \
+  --data 'play=hello.yml' \
+  --data 'host=localhost'
        '''
-
-def upload_file():
-    if request.method == 'POST':
-        f = request.files['the_file']
-        f.save('/var/www/uploads/uploaded_file.txt')
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=8080, debug=False)
