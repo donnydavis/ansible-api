@@ -11,13 +11,14 @@ An example role is included to run a test to ensure the system is functioning
       --url http://127.0.0.1:8080/api/run/ \
       --data 'role=test' \
       --data 'play=hello.yml'
+      --data 'host=localhost'
       
 
 You can follow this test example to run your Ansible Role. 
 
 The role parameter relates to the directory your role is in
 The play parameter is the Ansible playbook you want to run
-
+The host parameter is the host you want to run the play against
 
 This is honestly just some code I threw together to see if I could write an API that actually does something, as it turns out
 I can 
