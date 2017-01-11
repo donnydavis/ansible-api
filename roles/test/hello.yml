@@ -1,0 +1,13 @@
+---
+- name: Hello World
+  hosts: all
+  gather_facts: no
+  tasks:
+  - name: Wait for 10 seconds
+    pause:
+      seconds: 10
+  - name: Hello World
+    command : echo "hello"
+    register: hello
+  - debug: msg="{{ hello.stdout }}"
+
