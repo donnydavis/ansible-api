@@ -5,6 +5,12 @@ If you are looking for a fully fledged API, take a look at Ansible Tower
 
 This Flask app lets you look at your roles via the api, and lets you run playbooks via the API
 
+To get started 
+      
+      git clone https://github.com/donnydavis/ansible-api.git
+      cd ansible-api
+      python server.py
+
 An example role is included to run a test to ensure the system is functioning
 
     curl --request POST \
@@ -12,13 +18,7 @@ An example role is included to run a test to ensure the system is functioning
       --data 'role=test' \
       --data 'play=hello.yml' \
       --data 'host=localhost'
-
-To get started using this app
-    git clone https://github.com/donnydavis/ansible-api.git
-    cd ansible-api
-    python server.py
-
-You can follow this test example to run your Ansible Role.
+      
 
 The role parameter relates to the directory your role is in
 
