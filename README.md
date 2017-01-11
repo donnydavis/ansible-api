@@ -21,11 +21,14 @@ To get started using this app
 You can follow this test example to run your Ansible Role.
 
 The role parameter relates to the directory your role is in
+
 The play parameter is the Ansible playbook you want to run
+
 The host parameter is the host you want to run the play against
 
-This is honestly just some code I threw together to see if I could write an API that actually does something, as it turns out
-I can
+This is honestly just some code I threw together to see if I could write an
+
+API that actually does something, as it turns out I can
 
 Thanks for checking it out
 
