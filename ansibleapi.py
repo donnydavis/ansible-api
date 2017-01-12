@@ -26,6 +26,24 @@ def getRoles():
     """A list of installed Roles"""
     return jsonify(listRoles(ROLES_DIR))
 
+@app.route('/api/roles/github/get', methods = ['GET','POST'])
+def getRole():
+    """Run an Ansible Playbook"""
+    if request.method == 'POST':
+        r_u = request.values.get("username")
+        r_r = request.values.get("role")
+        process = subprocess.Popen(["/usr/bin/git", "clone", "https://github.com/"+ str(r_u) + '/' + str(r_r) + ".git", os.path.join(ROLES_DIR,r_r)])
+        return jsonify({'RunningPlay': {'name': r_r}})
+    else:
+       return '''Currently only github is supported
+curl --request POST \
+  --url http://127.0.0.1:8080/api/run/ \
+  --data 'username=donnydavis' \
+  --data 'role=ansible-rh-subscription-manager'
+       '''
+
+
+
 @app.route('/api/run/', methods = ['GET','POST'])
 def runPlay():
     """Run an Ansible Playbook"""
@@ -44,5 +62,6 @@ curl --request POST \
   --data 'host=localhost'
        '''
 
+
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=False)
+    app.run(host='0.0.0.0', port=8080, debug=True)
