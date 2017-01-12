@@ -30,7 +30,7 @@ The play parameter is the Ansible playbook you want to run
 
 The host parameter is the host you want to run the play against
 
-##If you want to view the available roles, it looks like This
+##If you want to view the available roles, it looks like this
 
     curl --request GET \
       --url http://127.0.0.1:8080/api/roles/
