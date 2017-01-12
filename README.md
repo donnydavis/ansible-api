@@ -30,10 +30,17 @@ The play parameter is the Ansible playbook you want to run
 
 The host parameter is the host you want to run the play against
 
-If you want to pull a play book from github via the API you can do something like This
+##If you want to view the available roles, it looks like This
+
+    curl --request GET \
+      --url http://127.0.0.1:8080/api/roles/
+
+The json output is configurable in the settings.py file
+
+##If you want to pull a play book from github via the API you can do something like This
 
     curl --request POST \
-      --url http://127.0.0.1:8080/api/run/ \
+      --url http://127.0.0.1:8080/api/roles/github/get \
       --data 'username=donnydavis' \
       --data 'role=ansible-rh-subscription-manager'
 
@@ -42,12 +49,17 @@ There is currently only github support because its hard coded into the request p
 I am sure there are better ways to accomplish this, but hey I do accept pull requests.
 
 
+The instructions for how to operate the POST methods of the API are in the GET methods.
+
+##If you are unsure of how to run a POST, then do a GET on the same API and an example will be printed for you
+
+    curl --request GET \
+      --url http://127.0.0.1:8080/api/roles/github/get
 
 
+This is honestly just some code I threw together to see if I could write an
 
-##This is honestly just some code I threw together to see if I could write an
-
-##API that actually does something, as it turns out I can but not very well
+API that actually does something, as it turns out I can but not very well
 
 ###Thanks for checking it out
 
