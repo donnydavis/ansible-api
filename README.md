@@ -13,7 +13,7 @@ To get started
 
       git clone https://github.com/donnydavis/ansible-api.git
       cd ansible-api
-      python server.py
+      python ansibleapi.py
 
 An example role is included to run a test to ensure the system is functioning
 
@@ -30,10 +30,25 @@ The play parameter is the Ansible playbook you want to run
 
 The host parameter is the host you want to run the play against
 
-This is honestly just some code I threw together to see if I could write an
+If you want to pull a play book from github via the API you can do something like This
 
-API that actually does something, as it turns out I can but not very well
+    curl --request POST \
+      --url http://127.0.0.1:8080/api/run/ \
+      --data 'username=donnydavis' \
+      --data 'role=ansible-rh-subscription-manager'
 
-Thanks for checking it out
+There is currently only github support because its hard coded into the request processing logic.
+
+I am sure there are better ways to accomplish this, but hey I do accept pull requests.
+
+
+
+
+
+##This is honestly just some code I threw together to see if I could write an
+
+##API that actually does something, as it turns out I can but not very well
+
+###Thanks for checking it out
 
 ~D
