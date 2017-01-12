@@ -15,7 +15,7 @@ To get started
       cd ansible-api
       python ansibleapi.py
 
-An example role is included to run a test to ensure the system is functioning
+##An example role is included to run a test to ensure the system is functioning
 
     curl --request POST \
       --url http://127.0.0.1:8080/api/run/ \
@@ -37,7 +37,7 @@ The host parameter is the host you want to run the play against
 
 The json output is configurable in the settings.py file
 
-##If you want to pull a play book from github via the API you can do something like This
+##If you want to pull a play book from github via the API you can do something like this
 
     curl --request POST \
       --url http://127.0.0.1:8080/api/roles/github/get \
