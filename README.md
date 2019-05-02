@@ -10,7 +10,7 @@ If you are looking for a fully fledged API, take a look at Ansible Tower by Red 
 This Flask app lets you look at your roles via the api, and lets you run playbooks via the API
 
 To get started
-
+      sudo pip install flask
       git clone https://github.com/donnydavis/ansible-api.git
       cd ansible-api
       python ansibleapi.py
