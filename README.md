@@ -1,11 +1,9 @@
 # Ansible API
-This is a really really simple ansible API written in Flask.
+This is a really really simple ansible API written in Flask. It's meant to be lightweight and used in a distrubted manner to bring scale to Ansible and the capability to make REST based requests to a host. 
 
-The code is crappy at best, and not meant for production use in any way shape or form
+The code is not meant for production use in its current state. Its missing functions to protect your system from misuse.
 
-This code is insecure, and not suitable for any system outside of a confined test enviroment
-
-If you are looking for a fully fledged API, take a look at Ansible Tower by Red Hat.
+If you are looking for a fully fledged API, take a look at the AWX project. 
 
 This Flask app lets you look at your roles via the api, and lets you run playbooks via the API
 
@@ -38,16 +36,12 @@ The host parameter is the host you want to run the play against
 
 The json output is configurable in the settings.py file
 
-##If you want to pull a play book from github via the API you can do something like this
+##AnsibleAPI can also fetch roles from github. Support for arbitary git repos will be in the next release.
 
     curl --request POST \
       --url http://127.0.0.1:8080/api/roles/github/get \
       --data 'username=donnydavis' \
       --data 'role=ansible-rh-subscription-manager'
-
-There is currently only github support because its hard coded into the request processing logic.
-
-I am sure there are better ways to accomplish this, but hey I do accept pull requests.
 
 
 The instructions for how to operate the POST methods of the API are in the GET methods.
@@ -58,10 +52,4 @@ The instructions for how to operate the POST methods of the API are in the GET m
       --url http://127.0.0.1:8080/api/roles/github/get
 
 
-This is honestly just some code I threw together to see if I could write an
-
-API that actually does something, as it turns out I can but not very well
-
-###Thanks for checking it out
-
-~D
+###Thanks for checking out AnsibleAPI
