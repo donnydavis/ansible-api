@@ -1,11 +1,11 @@
 # Ansible API
-This is a really really simple ansible API written in Flask. It's meant to be lightweight and used in a distrubted manner to bring scale to Ansible and the capability to make REST based requests to a host. 
+This is a really really simple API for Ansible written in Flask. It's meant to be lightweight and used in a distrubted manner to bring scale to Ansible and the capability to make REST based requests to a host. 
 
 The code is not meant for production use in its current state. Its missing functions to protect your system from misuse.
 
 If you are looking for a fully fledged API, take a look at the AWX project. 
 
-This Flask app lets you look at your roles via the api, and lets you run playbooks via the API
+This Flask app lets you look at your roles via the API, and lets you run playbooks via the API
 
 To get started
 
@@ -36,7 +36,7 @@ The host parameter is the host you want to run the play against
 
 The json output is configurable in the settings.py file
 
-## AnsibleAPI can also fetch roles from github. Support for arbitary git repos will be in the next release.
+## Ansible API can also fetch roles from github. Support for arbitary git repos will be in the next release.
 
     curl --request POST \
       --url http://127.0.0.1:8080/api/roles/github/get \
@@ -52,4 +52,4 @@ The instructions for how to operate the POST methods of the API are in the GET m
       --url http://127.0.0.1:8080/api/roles/github/get
 
 
-### Thanks for checking out AnsibleAPI
+### Thanks for checking out Ansible API
