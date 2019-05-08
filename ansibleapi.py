@@ -1,67 +1,80 @@
-from flask import *
+"""Simple ansible API using Flask"""
+
 import os
-from rolelistdir import listRoles
-from settings import *
 import subprocess
+from flask import Flask, jsonify, request
 
-app = Flask(__name__)
+from helpers import list_roles, get_funcdocs
+from settings import ROLES_DIR, IGNORED_FILES
 
-@app.route('/', methods = ['GET'])
+
+APP = Flask(__name__)
+
+
+@APP.route("/", methods=["GET"])
 def index():
     """Welcome to Ansible API"""
-    return jsonify({'hello': 'What would you like to automate today?'})
+    return jsonify({
+        "hello": "Welcome to Ansible API, try GET: /api/ for more information"
+    })
 
 
-@app.route('/api/', methods = ['GET'])
-def apiIndex():
+@APP.route("/api/", methods=["GET"])
+def api_index():
     """These are the available APIS."""
-    func_list = {}
-    for rule in app.url_map.iter_rules():
-        if rule.endpoint != 'static':
-            func_list[rule.rule] = app.view_functions[rule.endpoint].__doc__
-    return jsonify(func_list)
+    return jsonify(get_funcdocs(app=APP))
 
-@app.route('/api/roles/', methods = ['GET'])
-def getRoles():
+
+@APP.route("/api/roles/", methods=["GET"])
+def get_roles():
     """A list of installed Roles"""
-    return jsonify(listRoles(ROLES_DIR))
+    return jsonify(list_roles(ROLES_DIR, IGNORED_FILES))
 
-@app.route('/api/roles/github/get', methods = ['GET','POST'])
-def getRole():
+
+# This could really stand to have some way to monitor the status of the
+# subprocess and handle errors, currently they are masked by the static
+# response. Storing them somewhere and then allowing another API call to
+# retrieve status may be sufficient. Some sort of callback might be better
+# for users, though. Better default response would be good as well.
+# TODO: This needs a lot of error handling
+@APP.route("/api/roles/github/", methods=["GET", "POST"])
+def get_role():
     """Run an Ansible Playbook"""
-    if request.method == 'POST':
-        r_u = request.values.get("username")
-        r_r = request.values.get("role")
-        process = subprocess.Popen(["/usr/bin/git", "clone", "https://github.com/"+ str(r_u) + '/' + str(r_r) + ".git", os.path.join(ROLES_DIR,r_r)])
-        return jsonify({'RunningPlay': {'name': r_r}})
-    else:
-       return '''Currently only github is supported
-curl --request POST \
-  --url http://127.0.0.1:8080/api/run/ \
-  --data 'username=donnydavis' \
-  --data 'role=ansible-rh-subscription-manager'
-       '''
+    if request.method == "POST":
+        username = request.values.get("username")
+        role = request.values.get("role")
+        _ = subprocess.Popen(["/usr/bin/git", "clone", "https://github.com/" +
+                              str(username) + "/" + str(role) + ".git",
+                              os.path.join(ROLES_DIR, role)])
+        return jsonify({"RunningPlay": {"name": role}})
+    return """Currently only github is supported, try:
+                curl --request POST
+                --url http://127.0.0.1:8080/api/run/
+                --data 'username=username'
+                --data 'role=ansible-rh-subscription-manager'
+            """
 
 
-
-@app.route('/api/run/', methods = ['GET','POST'])
-def runPlay():
+# See the comment on get_role()
+# TODO: This needs a lot of error handling
+@APP.route("/api/run/", methods=["GET", "POST"])
+def run_play():
     """Run an Ansible Playbook"""
-    if request.method == 'POST':
-        p = request.values.get("play")
-        r = request.values.get("role")
-        h = request.values.get("host")
-        process = subprocess.Popen(["/usr/bin/ansible-playbook", "--limit=" + str(h), os.path.join(ROLES_DIR,r,p)])
-        return jsonify({'RunningPlay': {'name': p}})
-    else:
-       return '''To use this API
-curl --request POST \
-  --url http://127.0.0.1:8080/api/run/ \
-  --data 'role=test' \
-  --data 'play=hello.yml' \
-  --data 'host=localhost'
-       '''
+    if request.method == "POST":
+        play = request.values.get("play", None)
+        role = request.values.get("role", None)
+        host = request.values.get("host", None)
+        _ = subprocess.Popen(["/usr/bin/ansible-playbook", "--limit=" +
+                              str(host), os.path.join(ROLES_DIR, role, play)])
+        return jsonify({"RunningPlay": {"name": play}})
+    return """To use this API, try:
+                curl --request POST 
+                --url http://127.0.0.1:8080/api/run/ 
+                --data 'role=test'
+                --data 'play=hello.yml' 
+                --data 'host=localhost'
+            """
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=8080, debug=True)
+if __name__ == "__main__":
+    APP.run(host="0.0.0.0", port=8080, debug=True)
